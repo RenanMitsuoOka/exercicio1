@@ -11,7 +11,7 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         E validando minha compra ao final */
 
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('/produtos')
     });
 
     it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
@@ -57,5 +57,7 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         cy.get('.woocommerce-notice').should('contain', 'Obrigado. Seu pedido foi recebido.')
     });
 
-
+    it('Deve adicionar produtos ao carrinho - Usando comando customizado',() =>{
+        cy.addProdutos('Bruno Compete Hoodie', 'M', 'Black', 3)
+    });
 })
