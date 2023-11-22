@@ -12,36 +12,26 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
 
     beforeEach(() => {
         cy.visit('/produtos')
+      
     });
 
     it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
         let emailfaket = faker.internet.email()
         let nomefaker = faker.name.firstName()
         let sobrenomefaker = faker.name.lastName()
+        var quantidade = 7
+        cy.get('[class="product-block grid"]')
+        .contains('Bruno Compete Hoodie').click()
+        cy.get('.button-variable-item-S').click()
+        cy.get('.button-variable-item-Black').click()
+        cy.get('.input-text')
+        .clear()
+        .type(quantidade)
+        cy.get('.single_add_to_cart_button').click()
+        cy.get('.dropdown-toggle > .mini-cart-items').should('contain', quantidade)
+        cy.get('.woocommerce-message > .button').click()
+        cy.get('.checkout-button').click()
 
-        cy.get('[class="product-block grid"]')
-        .contains('Gorgeous Granite Fish').click()
-        cy.get('.single_add_to_cart_button').click()
-        cy.get('.tbay-woocommerce-breadcrumb > :nth-child(2) > a').click()
-        cy.get('[class="product-block grid"]')
-        .contains('Licensed Soft Mouse').click()
-        cy.get('.single_add_to_cart_button').click()
-        cy.get('.tbay-woocommerce-breadcrumb > :nth-child(2) > a').click()
-        cy.get('[class="product-block grid"]')
-        .contains('Practical Soft Computer').click()
-        cy.get('.single_add_to_cart_button').click()
-        cy.get('.tbay-woocommerce-breadcrumb > :nth-child(2) > a').click()
-        cy.get('.tbay-woocommerce-breadcrumb > :nth-child(1) > a').click()
-        cy.get('[class="product-block grid"]')
-        .contains('Livingston All-Purpose Tight').click()
-        cy.get('.button-variable-item-32').click()
-        cy.get('.button-variable-item-Blue').click()
-        cy.get('.input-text').clear().type('2')
-        cy.get('.single_add_to_cart_button').click()
-
-        cy.get('.dropdown-toggle > .text-skin > .icon-basket').click()
-        cy.get('#cart > .dropdown-menu > .widget_shopping_cart_content > .mini_cart_content > .mini_cart_inner > .mcart-border > .buttons > .checkout').click()
-       
         cy.get('#billing_first_name').type(nomefaker)
         cy.get('#billing_last_name').type(sobrenomefaker)
         cy.get('#select2-billing_country-container').click().type('Brasil', +'{enter}').click()
@@ -55,9 +45,5 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         cy.get('#terms').click()
         cy.get('#place_order').click()
         cy.get('.woocommerce-notice').should('contain', 'Obrigado. Seu pedido foi recebido.')
-    });
-
-    it('Deve adicionar produtos ao carrinho - Usando comando customizado',() =>{
-        cy.addProdutos('Bruno Compete Hoodie', 'M', 'Black', 3)
     });
 })
